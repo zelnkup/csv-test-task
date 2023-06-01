@@ -26,3 +26,9 @@ migrations:
 
 migrate:
 	docker-compose run --rm backend python manage.py migrate
+
+superuser:
+	docker-compose run --rm backend python manage.py createsuperuser
+
+static:
+	docker-compose run --rm backend python manage.py collectstatic

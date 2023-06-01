@@ -1,7 +1,13 @@
 from django.urls import path
 
-from src.star_wars.views import get_characters_csv
+from src.star_wars.views import (
+    CharactersDetailView,
+    CharactersListView,
+    get_characters_csv,
+)
 
 urlpatterns = [
-    path("async/", get_characters_csv),
+    path("generate/", get_characters_csv, name="generate-csv"),
+    path("", CharactersListView.as_view()),
+    path("<int:pk>/", CharactersDetailView.as_view(), name="character-detail"),
 ]

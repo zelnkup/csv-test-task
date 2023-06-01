@@ -16,7 +16,7 @@ class StarWarsAPIHTTP:
             response = await client.get(url, params=params, timeout=self.timeout)
             if response.status_code != 200:
                 raise StarWarsAPIHTTPException(
-                    f"Non-ok HTTP response from SW api: {response.status_code}"
+                    f"Non-ok HTTP response from SW api: {response.json()}"
                 )
 
         return response.json()["results"]
@@ -29,7 +29,7 @@ class StarWarsAPIHTTP:
         )
         if response.status_code != 200:
             raise StarWarsAPIHTTPException(
-                f"Non-ok HTTP response from SW api: {response.status_code}"
+                f"Non-ok HTTP response from SW api: {response.json()}"
             )
 
         return response.json()

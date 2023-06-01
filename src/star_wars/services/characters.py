@@ -1,7 +1,16 @@
 import asyncio
+import uuid
+from dataclasses import dataclass
 from math import ceil
 
+import petl as etl
+from django.core.files.base import ContentFile
+from petl import MemorySource
+
 from src.integrations.sw_api.client import ClientMode, StarWarsClient
+from src.star_wars.models import CollectionRequest
+
+__all__ = ("GetCharactersService", "SaveCharactersToCSVService")
 
 
 class GetCharactersService:
@@ -17,3 +26,26 @@ class GetCharactersService:
         ]
 
         return await asyncio.gather(*tasks)
+
+
+@dataclass
+class SaveCharactersToCSVService:
+    characters: dict
+    memory_source = MemorySource()
+
+    def __call__(self) -> CollectionRequest:
+        self.table = self._generate_table()
+        return self.create_collection()
+
+    def _generate_table(self):
+        table = etl.fromdicts(self.characters)
+        return etl.tocsv(table, source=self.memory_source)
+
+    def get_file_name(self) -> str:
+        return uuid.uuid4().hex + ".csv"
+
+    def create_collection(self):
+        content_file = ContentFile(
+            self.memory_source.getvalue(), name=self.get_file_name()
+        )
+        return CollectionRequest.objects.create(file=content_file)
