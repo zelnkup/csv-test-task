@@ -47,6 +47,14 @@ class CharactersDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         instance = self.get_object()
         table = etl.fromcsv(instance.file.path)
+        context["buttons"] = etl.header(table)
+        if aggregation := self.request.GET.get("aggregation"):
+            rows = aggregation.split(",")
+            table = etl.aggregate(table, key=rows, aggregation=len)
+            table = etl.skip(table, 1)  # skip header
+            context["characters"] = table
+            context["headers"] = rows + ["count"]
+            return context
         context["headers"] = etl.header(table)
         size = self.request.GET.get("size") or self.pagination_size
         table = etl.skip(table, 1)  # skip header
