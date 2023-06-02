@@ -3,7 +3,39 @@
 
 {% block content %}
 
-<table>
-{{ object }}
-</table>
+<div>
+  <form method="get" action="{{ object.file.url }}">
+    <button type="submit" class="btn btn-success">Download file!</button>
+  </form>
+</div>
+<br>
+<div class="justify-content-center">
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th scope="col">#</th>
+      {% for header in headers %}
+      <th scope="col">{{ header }}</th>
+      {% endfor %}
+    </tr>
+
+    </thead>
+    <tbody>
+    {% for character in characters %}
+
+    <tr>
+      <th scope="row">{{ forloop.counter }}</th>
+      {% for sub_char in character %}
+      <td>{{ sub_char }}</td>
+      {% endfor %}
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+<a href="{{ request.path }}?size={{ size }}" style="all: unset;">
+  <button class="btn btn-primary">Load more</button>
+</a>
+
 {% endblock %}

@@ -11,3 +11,10 @@ class CollectionRequest(models.Model):
 
     def __str__(self):
         return f"Collection request #{self.id}"
+
+
+class HomeWorld(models.Model):
+    homeworld_map = models.JSONField()
+
+    def __str__(self):
+        return f"Homeworld #{self.id}"

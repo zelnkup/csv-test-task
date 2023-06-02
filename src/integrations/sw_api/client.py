@@ -12,15 +12,21 @@ class ClientMode(Enum):
     SYNC = "sync"
 
 
+class ResourceType(Enum):
+    CHARACTERS = "people/"
+    PLANETS = "planets/"
+
+
 @dataclass
 class StarWarsClient:
     params: Optional[dict]
+    resource: ResourceType
     mode: ClientMode = ClientMode.SYNC
     base_url: str = settings.SW_API_URL
     http = StarWarsAPIHTTP()
 
-    def get_characters(self):
-        url = self.base_url + "people/"
+    def get_items(self):
+        url = self.base_url + self.resource.value
         match self.mode:
             case ClientMode.SYNC:
                 return self.http.get(url, self.params)
