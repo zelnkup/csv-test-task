@@ -13,6 +13,12 @@ from src.star_wars.services.planets import GetPlanetsMap
 
 
 def get_characters_csv(request):
+    """
+    View for generating csv file with characters
+    If there is no planets in db, fetch them from SW API
+    :param request:
+    :return:
+    """
     home_world = HomeWorld.objects.first()
 
     async def async_view():
@@ -38,6 +44,12 @@ class CharactersListView(ListView):
 
 
 class CharactersDetailView(DetailView):
+    """
+    View for displaying characters from csv file
+    Layer for pagination and aggregation was placed in get_context_data
+    For scalability, it is better to extract it to a separate layer like Filter in DRF
+    """
+
     model = CollectionRequest
     template_name = "character.html"
     pagination_size = 10

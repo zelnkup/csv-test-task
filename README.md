@@ -13,3 +13,9 @@
 ### Run docker container
 
     make run
+
+### Run tests
+
+    make test
+
+Improvements list [here](improvements.md)

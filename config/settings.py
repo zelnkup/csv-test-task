@@ -19,12 +19,12 @@ SECRET_KEY = env("DJANGO_SECRET_KEY")
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "0.0.0.0",
+    "*",
 ]
 
 
 # Application definition
-LOCAL_APPS = ["src.star_wars"]
+LOCAL_APPS = ["src.star_wars.apps.SwIntegrationConfig"]
 
 INSTALLED_APPS = [
     "django.contrib.admin",

@@ -9,6 +9,10 @@ __all__ = ("StarWarsAPIHTTP",)
 
 @dataclass
 class StarWarsAPIHTTP:
+    """
+    HTTP client for fetching data from SW API in async and sync modes using httpx library
+    """
+
     timeout = httpx.Timeout(10.0, read=None)
 
     async def async_get(self, url, params=None):

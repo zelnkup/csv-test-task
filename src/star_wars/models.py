@@ -14,6 +14,11 @@ class CollectionRequest(models.Model):
 
 
 class HomeWorld(models.Model):
+    """
+    HomeWorld model with map of homeworlds urls and titles
+    {url: title}
+    """
+
     homeworld_map = models.JSONField()
 
     def __str__(self):

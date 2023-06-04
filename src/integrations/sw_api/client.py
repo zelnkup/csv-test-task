@@ -19,6 +19,15 @@ class ResourceType(Enum):
 
 @dataclass
 class StarWarsClient:
+    """
+    Client for fetching data from SW API
+    Could for both in sync and async modes
+    Based on resource type adjusts url and fetch proper resource
+    Usage:
+    StarWarsClient({"page": 1}, mode=ClientMode.ASYNC, resource=ResourceType.CHARACTERS).get_items()
+    StarWarsClient({"page": 2}, resource=ResourceType.PLANETS).get_items()
+    """
+
     params: Optional[dict]
     resource: ResourceType
     mode: ClientMode = ClientMode.SYNC
